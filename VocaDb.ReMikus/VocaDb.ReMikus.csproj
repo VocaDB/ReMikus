@@ -4,6 +4,12 @@
     <TargetFramework>net5.0</TargetFramework>
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
+    <Authors>VocaDB</Authors>
+    <PackageProjectUrl>https://github.com/VocaDB/ReMikus</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/VocaDB/ReMikus</RepositoryUrl>
+    <Description>ASP.NET Core MVC tag helpers for Laravel Mix.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
