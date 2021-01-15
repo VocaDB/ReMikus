@@ -5,14 +5,16 @@ using Newtonsoft.Json;
 
 namespace VocaDb.ReMikus
 {
-	public class LaravelMix
+	public sealed class LaravelMix
 	{
 		private readonly Dictionary<string, string> _manifest;
 
+		public string ManifestPath { get; }
+
 		public LaravelMix(IWebHostEnvironment webHostEnvironment)
 		{
-			var manifestPath = Path.Combine(webHostEnvironment.WebRootPath, "mix-manifest.json");
-			_manifest = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(manifestPath));
+			ManifestPath = Path.Combine(webHostEnvironment.WebRootPath, "mix-manifest.json");
+			_manifest = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(ManifestPath));
 		}
 
 		/// <summary>
