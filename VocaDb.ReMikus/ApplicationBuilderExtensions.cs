@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -21,6 +22,26 @@ namespace VocaDb.ReMikus
 			return response.CompleteAsync();
 		});
 
-		public static IApplicationBuilder UseInertia(this IApplicationBuilder app) => app.UseWhen(predicate: ShouldCheckVersion, configuration: CheckVersion);
+		private static bool ShouldChangeRedirectCode(HttpRequest request) => request.IsXInertia() && (request.IsPut() || request.IsPatch() || request.IsDelete());
+
+		private static bool ShouldChangeRedirectCode(HttpContext context) => ShouldChangeRedirectCode(context.Request);
+
+		private static void ChangeRedirectCode(IApplicationBuilder app) => app.Use(async (context, next) =>
+		{
+			var (request, response) = (context.Request, context.Response);
+			response.OnStarting(() =>
+			{
+				if ((HttpStatusCode)response.StatusCode == HttpStatusCode.Found)
+					response.StatusCode = (int)HttpStatusCode.SeeOther;
+
+				return Task.CompletedTask;
+			});
+
+			await next();
+		});
+
+		public static IApplicationBuilder UseInertia(this IApplicationBuilder app) => app
+			.UseWhen(predicate: ShouldCheckVersion, configuration: CheckVersion)
+			.UseWhen(predicate: ShouldChangeRedirectCode, configuration: ChangeRedirectCode);
 	}
 }
