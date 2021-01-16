@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Net.Http.Headers;
 
@@ -11,6 +14,9 @@ namespace VocaDb.ReMikus
 	public sealed class InertiaResult : IActionResult
 	{
 		private sealed record Page(string? Component, IReadOnlyDictionary<string, object> Props, string Url, string Version);
+
+		private const string ActionNameKey = "action";
+		private const string ControllerKey = "controller";
 
 		public static readonly string DefaultRootView = "Views/App.cshtml";
 
@@ -31,10 +37,30 @@ namespace VocaDb.ReMikus
 
 		public InertiaResult(string? component, IReadOnlyDictionary<string, object> props) : this(component, props, rootView: null) { }
 
+		// Code from: https://github.com/dotnet/aspnetcore/blob/b795ac3546eb3e2f47a01a64feb3020794ca33bb/src/Mvc/Mvc.ViewFeatures/src/ViewResultExecutor.cs#L182
+		private static string? GetActionName(ActionContext context)
+		{
+			if (!context.RouteData.Values.TryGetValue(ActionNameKey, out var routeValue))
+				return null;
+
+			var actionDescriptor = context.ActionDescriptor;
+			string? normalizedValue = null;
+			if (actionDescriptor.RouteValues.TryGetValue(ActionNameKey, out var value) && !string.IsNullOrEmpty(value))
+				normalizedValue = value;
+
+			var stringRouteValue = Convert.ToString(routeValue, CultureInfo.InvariantCulture);
+			if (string.Equals(normalizedValue, stringRouteValue, StringComparison.OrdinalIgnoreCase))
+				return normalizedValue;
+
+			return stringRouteValue;
+		}
+
 		public Task ExecuteResultAsync(ActionContext context)
 		{
 			var (request, response) = (context.HttpContext.Request, context.HttpContext.Response);
-			var page = new Page(_component, _props, Url: request.GetEncodedPathAndQuery(), _version);
+
+			var component = _component ?? $"{RazorViewEngine.GetNormalizedRouteValue(context, ControllerKey)}/{GetActionName(context)}";
+			var page = new Page(component, _props, Url: request.GetEncodedPathAndQuery(), _version);
 
 			if (request.IsXInertia())
 			{
