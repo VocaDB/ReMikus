@@ -13,8 +13,6 @@ namespace VocaDb.ReMikus
 		public string? RootView { get; set; }
 		public Func<string> VersionSelector { get; set; } = () => string.Empty;
 
-		public LazyProp? Lazy(Action? callback) => throw new NotImplementedException();
-
 		public InertiaResult Render(string? component, IReadOnlyDictionary<string, object> props) => new(
 			component,
 			// Prefer `props` over `SharedProps`.

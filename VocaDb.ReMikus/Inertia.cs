@@ -25,8 +25,6 @@ namespace VocaDb.ReMikus
 			set => s_factory.VersionSelector = value;
 		}
 
-		public static LazyProp? Lazy(Action? callback) => s_factory.Lazy(callback);
-
 		public static InertiaResult Render(string? component, IReadOnlyDictionary<string, object> props) => s_factory.Render(component, props);
 
 		public static InertiaResult Render(string? component) => s_factory.Render(component);
