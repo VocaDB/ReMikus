@@ -116,6 +116,19 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 </html>
 ```
 
+`HomeController.cs`:
+```csharp
+using VocaDb.ReMikus;
+
+public class HomeController : Controller
+{
+    public IActionResult Index()
+    {
+        return Inertia.Render();
+    }
+}
+```
+
 ## References
 
 - [Compiling Assets (Mix) - Laravel - The PHP Framework For Web Artisans](https://laravel.com/docs/8.x/mix)
