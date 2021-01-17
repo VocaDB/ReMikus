@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -60,7 +61,13 @@ namespace VocaDb.ReMikus
 			var (request, response) = (context.HttpContext.Request, context.HttpContext.Response);
 
 			var component = _component ?? $"{RazorViewEngine.GetNormalizedRouteValue(context, ControllerKey)}/{GetActionName(context)}";
-			var page = new Page(component, _props, Url: request.GetEncodedPathAndQuery(), _version);
+
+			var only = request.GetXInertiaPartialData().Split(',', StringSplitOptions.RemoveEmptyEntries);
+			var props = (only.Any() && request.GetXInertiaPartialComponent() == component
+				? _props.Where(p => only.Contains(p.Key))
+				: _props).ToDictionary(kv => kv.Key, kv => kv.Value);
+
+			var page = new Page(component, props, Url: request.GetEncodedPathAndQuery(), _version);
 
 			if (request.IsXInertia())
 			{

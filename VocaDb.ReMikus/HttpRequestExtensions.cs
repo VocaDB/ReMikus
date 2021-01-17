@@ -15,6 +15,10 @@ namespace VocaDb.ReMikus
 
 		public static bool IsPut(this HttpRequest request) => string.Equals(request.Method, "PUT", StringComparison.OrdinalIgnoreCase);
 
+		public static string GetXInertiaPartialComponent(this HttpRequest request) => request.Headers[InertiaHeaderNames.XInertiaPartialComponent].ToString();
+
+		public static string GetXInertiaPartialData(this HttpRequest request) => request.Headers[InertiaHeaderNames.XInertiaPartialData].ToString();
+
 		public static string GetXInertiaVersion(this HttpRequest request) => request.Headers[InertiaHeaderNames.XInertiaVersion].ToString()/* required */;
 	}
 }
