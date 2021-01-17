@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace VocaDb.ReMikus
 {
@@ -15,6 +18,10 @@ namespace VocaDb.ReMikus
 
 		private static void CheckVersion(IApplicationBuilder app) => app.Run(context =>
 		{
+			var tempData = context.RequestServices.GetRequiredService<ITempDataDictionaryFactory>().GetTempData(context);
+			if (tempData.Any())
+				tempData.Keep();
+
 			var (request, response) = (context.Request, context.Response);
 			response.StatusCode = (int)HttpStatusCode.Conflict;
 			response.Headers[InertiaHeaderNames.XInertiaLocation] = Uri.UnescapeDataString(request.GetEncodedPathAndQuery());
