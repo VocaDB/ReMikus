@@ -8,8 +8,9 @@
     <PackageProjectUrl>https://github.com/VocaDB/ReMikus</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/VocaDB/ReMikus</RepositoryUrl>
-    <Description>ASP.NET Core MVC tag helpers for Laravel Mix.</Description>
+    <Description>ASP.NET Core MVC tag helpers for Laravel Mix and Inertia.js.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
