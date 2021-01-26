@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using Microsoft.AspNetCore.Hosting;
-using Newtonsoft.Json;
 
 namespace VocaDb.ReMikus
 {
@@ -14,7 +14,7 @@ namespace VocaDb.ReMikus
 		public LaravelMix(IWebHostEnvironment webHostEnvironment)
 		{
 			ManifestPath = Path.Combine(webHostEnvironment.WebRootPath, "mix-manifest.json");
-			_manifest = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(ManifestPath));
+			_manifest = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(ManifestPath)) ?? new();
 		}
 
 		/// <summary>
