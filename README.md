@@ -65,9 +65,9 @@ public class HandleInertiaRequests
     public async Task InvokeAsync(HttpContext context, LaravelMix laravelMix)
     {
         // shared data
-        Inertia.SharedProps = new Dictionary<string, object>
+        Inertia.SharedProps = new
         {
-            { "appName", "VocaDB" },
+            AppName = "VocaDB",
         };
 
         // asset versioning
@@ -116,15 +116,25 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 </html>
 ```
 
-`HomeController.cs`:
+`EventController.cs`:
 ```csharp
 using VocaDb.ReMikus;
 
-public class HomeController : Controller
+public class EventController : Controller
 {
-    public IActionResult Index()
+    public IActionResult Details(int id)
     {
-        return Inertia.Render();
+        // ...
+        return Inertia.Render(new
+        {
+            Event = new
+            {
+                event.Id,
+                event.Title,
+                event.StartDate,
+                event.Description,
+            },
+        });
     }
 }
 ```
