@@ -14,7 +14,7 @@ namespace VocaDb.ReMikus
 {
 	public sealed class InertiaResult : IActionResult
 	{
-		private sealed record Page(string? Component, IReadOnlyDictionary<string, object> Props, string Url, string Version);
+		private sealed record Page(string? Component, IReadOnlyDictionary<string, object?> Props, string Url, string Version);
 
 		private const string ActionNameKey = "action";
 		private const string ControllerKey = "controller";
@@ -22,11 +22,11 @@ namespace VocaDb.ReMikus
 		public static readonly string DefaultRootView = "Views/App.cshtml";
 
 		private readonly string? _component;
-		private readonly IReadOnlyDictionary<string, object> _props;
+		private readonly IReadOnlyDictionary<string, object?> _props;
 		private readonly string _rootView;
 		private readonly string _version;
 
-		public InertiaResult(string? component, IReadOnlyDictionary<string, object> props, string? rootView, string version)
+		public InertiaResult(string? component, IReadOnlyDictionary<string, object?> props, string? rootView, string version)
 		{
 			_component = component;
 			_props = props;
@@ -34,9 +34,9 @@ namespace VocaDb.ReMikus
 			_version = version ?? string.Empty;
 		}
 
-		public InertiaResult(string? component, IReadOnlyDictionary<string, object> props, string? rootView) : this(component, props, rootView, version: string.Empty) { }
+		public InertiaResult(string? component, IReadOnlyDictionary<string, object?> props, string? rootView) : this(component, props, rootView, version: string.Empty) { }
 
-		public InertiaResult(string? component, IReadOnlyDictionary<string, object> props) : this(component, props, rootView: null) { }
+		public InertiaResult(string? component, IReadOnlyDictionary<string, object?> props) : this(component, props, rootView: null) { }
 
 		// Code from: https://github.com/dotnet/aspnetcore/blob/b795ac3546eb3e2f47a01a64feb3020794ca33bb/src/Mvc/Mvc.ViewFeatures/src/ViewResultExecutor.cs#L182
 		private static string? GetActionName(ActionContext context)

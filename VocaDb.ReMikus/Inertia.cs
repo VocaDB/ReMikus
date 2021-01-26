@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace VocaDb.ReMikus
 {
@@ -7,7 +6,7 @@ namespace VocaDb.ReMikus
 	{
 		private static readonly InertiaResultFactory s_factory = new();
 
-		public static IReadOnlyDictionary<string, object> SharedProps
+		public static object? SharedProps
 		{
 			get => s_factory.SharedProps;
 			set => s_factory.SharedProps = value;
@@ -25,11 +24,11 @@ namespace VocaDb.ReMikus
 			set => s_factory.VersionSelector = value;
 		}
 
-		public static InertiaResult Render(string? component, IReadOnlyDictionary<string, object> props) => s_factory.Render(component, props);
+		public static InertiaResult Render(string? component, object? props) => s_factory.Render(component, props);
 
 		public static InertiaResult Render(string? component) => s_factory.Render(component);
 
-		public static InertiaResult Render(IReadOnlyDictionary<string, object> props) => s_factory.Render(props);
+		public static InertiaResult Render(object? props) => s_factory.Render(props);
 
 		public static InertiaResult Render() => s_factory.Render();
 	}
