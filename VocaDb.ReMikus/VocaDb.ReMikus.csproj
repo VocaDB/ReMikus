@@ -10,15 +10,7 @@
     <RepositoryUrl>https://github.com/VocaDB/ReMikus</RepositoryUrl>
     <Description>ASP.NET Core MVC tag helpers for Laravel Mix and Inertia.js.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>VocaDb.ReMikus.xml</DocumentationFile>
-    <NoWarn>1701;1702;1591</NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Version>1.1.1</Version>
     <DocumentationFile>VocaDb.ReMikus.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
