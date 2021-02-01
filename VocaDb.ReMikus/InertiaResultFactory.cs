@@ -13,8 +13,8 @@ namespace VocaDb.ReMikus
 			component,
 			// Prefer `props` over `SharedProps`.
 			props: new PropValueDictionary(SharedProps).Concat(new PropValueDictionary(props))
-				.GroupBy(kvp => kvp.Key, (_, kvp) => kvp.Last())
-				.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+				.GroupBy(kv => kv.Key, (_, kv) => kv.Last())
+				.ToDictionary(kv => kv.Key, kv => kv.Value),
 			RootView,
 			version: VersionSelector());
 
